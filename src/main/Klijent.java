@@ -17,10 +17,10 @@ public class Klijent {
 			PrintStream odKlijenta = new PrintStream(kontrolniSoket.getOutputStream());
 			BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 
-			while(true){ //petlja za operacije i brojeve
+			while(true){ 
 				String odgovor = "";
 				do {
-					//System.out.println("Unesite neku od ponudjenih operacija:");
+					
 					System.out.println("Odaberite računsku operaciju: " + "\n"
 							+ "sabiranje -> index 1 " + "\n"
 							+ "oduzimanje -> index 2 " + "\n"
@@ -67,14 +67,6 @@ public class Klijent {
 						System.out.println("Niste uneli broj! Pokusajte opet!");
 					} 
 				} while (true);
-
-
-
-				//				System.out.println("Unesi port");
-				//				String portUnos = in.readLine();
-				//				int port = Integer.parseInt(portUnos);
-
-				//				int port = 18413;
 
 
 				Socket podaciSoket = new Socket("localhost", 18413);
