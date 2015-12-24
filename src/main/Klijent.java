@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.net.Socket;
+import java.util.LinkedList;
 
 public class Klijent {
 	public static void main(String[] args) {
@@ -29,10 +30,10 @@ public class Klijent {
 				} while (!odgovor.matches("[1-4]"));
 
 				odKlijenta.println(odgovor);
-				
+
 				String potvrdaServera = odServera.readLine();
 				System.out.println("Imate potvrdu: " + potvrdaServera);
-				
+
 				String unos1 = "0";
 				String unos2 = "0";
 
@@ -46,18 +47,28 @@ public class Klijent {
 						System.out.println("Niste uneli broj! Pokusajte opet!");
 					} 
 				}
-				while (true) {
+				LinkedList<Double> brojevi = new LinkedList<>();
+				do{
 					try {
-						System.out.println("Unesite drugu vrednost za računanje ");
-						unos2 = in.readLine();
-						Double.parseDouble(unos2);
-						break;
-					} catch (Exception e) {
+						
+							System.out.println("Unesite sledecu vrednost za računanje, unesite stop za prekid unosa i rezultat");
+							unos2 = in.readLine();
+							if(unos2.equals("stop")){
+								break;
+							}
+							double a = Double.parseDouble(unos2);
+							if(a==0 && odgovor.equals("4")){
+								System.out.println("Ne mozete deliti sa nulom");
+								continue;
+							}
+							brojevi.add(a);
+						}
+					 catch (Exception e) {
 						System.out.println("Niste uneli broj! Pokusajte opet!");
 					} 
-				}
-				
-				
+				} while (true);
+
+
 
 				//				System.out.println("Unesi port");
 				//				String portUnos = in.readLine();
@@ -70,7 +81,12 @@ public class Klijent {
 				BufferedReader dataOdServera = new BufferedReader(new InputStreamReader(podaciSoket.getInputStream()));
 				PrintStream dataOdKlijenta = new PrintStream(podaciSoket.getOutputStream());
 
-				dataOdKlijenta.println(unos1 + "##" + unos2);
+				String poruka = unos1 + "##";
+				for (int i = 0; i < brojevi.size(); i++) {
+					poruka += brojevi.get(i) + "##";
+					
+				}
+				dataOdKlijenta.println(poruka);
 
 
 				String rezultat = dataOdServera.readLine();
